@@ -8,7 +8,10 @@ def test_extracts_data():
 
 def test_split_into_entries():
     assert split_into_entries(extracted_data_string) == [example_1, example_2, example_3, example_4, example_5, example_6, example_7]
-    
+
+def test_split_entry_1():
+    assert split_entry(example_1) == ['15-18','23:00','10.0','10:00']
+
 example_1 = '15-18,23:00,10.0,10:00'
 example_2 = '18.30-19.00,23:00,12.0,18:00'
 example_3 = '4PM-5PM,22:30,14.0,12:00'

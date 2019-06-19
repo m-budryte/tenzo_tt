@@ -3,3 +3,6 @@ def extract_data(full_string):
 
 def split_into_entries(extracted_data):
     return extracted_data.split("\n")
+
+def split_entry(entry):
+    return entry.split(",")
