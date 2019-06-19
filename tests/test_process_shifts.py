@@ -31,14 +31,53 @@ def test_separate_breaks_3():
     example_split = split_entry(example_3)
     assert separate_breaks(example_split) == ["4PM","5PM"]
 
-def test_try_parsing_timestamp_1():
+def test_parse_timestamp_1():
     example_split = split_entry(example_1)
     break_start_end = separate_breaks(example_split)
     break_start = break_start_end[0]
     break_end = break_start_end[1]
-    assert try_parsing_timestamp(break_start) == datetime(1900, 1, 1, 15, 0)
-    assert try_parsing_timestamp(break_end) == datetime(1900, 1, 1, 18, 0)
+    assert parse_timestamp(break_start) == datetime(1900, 1, 1, 15, 0)
+    assert parse_timestamp(break_end) == datetime(1900, 1, 1, 18, 0)
 
+def test_parse_timestamp_2():
+    example_split = split_entry(example_2)
+    break_start_end = separate_breaks(example_split)
+    break_start = break_start_end[0]
+    break_end = break_start_end[1]
+    assert parse_timestamp(break_start) == datetime(1900, 1, 1, 18, 30)
+    assert parse_timestamp(break_end) == datetime(1900, 1, 1, 19, 0)
+
+def test_parse_timestamp_3():
+    example_split = split_entry(example_3)
+    break_start_end = separate_breaks(example_split)
+    break_start = break_start_end[0]
+    break_end = break_start_end[1]
+    assert parse_timestamp(break_start) == datetime(1900, 1, 1, 16, 0)
+    assert parse_timestamp(break_end) == datetime(1900, 1, 1, 17, 0)
+
+def test_parse_timestamp_4():
+    example_split = split_entry(example_4)
+    break_start_end = separate_breaks(example_split)
+    break_start = break_start_end[0]
+    break_end = break_start_end[1]
+    assert parse_timestamp(break_start) == datetime(1900, 1, 1, 3, 0)
+    assert parse_timestamp(break_end) == datetime(1900, 1, 1, 4, 0)
+
+def test_parse_break_start_end_1():
+    example_split = split_entry(example_1)
+    break_start_end = separate_breaks(example_split)
+    parse_break_start_end(break_start_end) == {
+        "break_start": datetime(1900, 1, 1, 15, 0),
+        "break_end": datetime(1900, 1, 1, 18, 0),
+    }
+
+def test_parse_break_start_end_4():
+    example_split = split_entry(example_4)
+    break_start_end = separate_breaks(example_split)
+    parse_break_start_end(break_start_end) == {
+        "break_start": datetime(1900, 1, 1, 3, 0),
+        "break_end": datetime(1900, 1, 1, 4, 0),
+    }
 example_1 = '15-18,23:00,10.0,10:00'
 example_2 = '18.30-19.00,23:00,12.0,18:00'
 example_3 = '4PM-5PM,22:30,14.0,12:00'
