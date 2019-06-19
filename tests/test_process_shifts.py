@@ -66,7 +66,7 @@ def test_parse_timestamp_4():
 def test_parse_break_start_end_1():
     example_split = split_entry(example_1)
     break_start_end = separate_breaks(example_split)
-    parse_break_start_end(break_start_end) == {
+    assert parse_break_start_end(break_start_end) == {
         "break_start": datetime(1900, 1, 1, 15, 0),
         "break_end": datetime(1900, 1, 1, 18, 0),
     }
@@ -74,10 +74,18 @@ def test_parse_break_start_end_1():
 def test_parse_break_start_end_4():
     example_split = split_entry(example_4)
     break_start_end = separate_breaks(example_split)
-    parse_break_start_end(break_start_end) == {
+    assert parse_break_start_end(break_start_end) == {
         "break_start": datetime(1900, 1, 1, 3, 0),
         "break_end": datetime(1900, 1, 1, 4, 0),
     }
+
+def test_aling_breaks_1():
+    example_split = split_entry(example_1)
+    break_start_end = separate_breaks(example_split)
+    parsed_break_data = parse_break_start_end(break_start_end)
+    parsed_shift_data = parse_start_end(example_split)
+    assert align_breaks(parsed_shift_data, parsed_break_data) == [datetime(1900, 1, 1, 15, 0), datetime(1900, 1, 1, 18, 0), datetime(1900, 1, 1, 10, 0), datetime(1900, 1, 1, 23, 0)]
+
 example_1 = '15-18,23:00,10.0,10:00'
 example_2 = '18.30-19.00,23:00,12.0,18:00'
 example_3 = '4PM-5PM,22:30,14.0,12:00'

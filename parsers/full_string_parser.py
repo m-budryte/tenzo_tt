@@ -31,3 +31,7 @@ def parse_break_start_end(break_start_end):
         "break_start": parse_timestamp(break_start_end[0]),
         "break_end": parse_timestamp(break_start_end[1]),
     }
+
+def align_breaks(shift_start_end, break_start_end):
+    if (shift_start_end["shift_start"] < break_start_end["break_start"] < break_start_end["break_end"] < shift_start_end["shift_end"]):
+        return [break_start_end["break_start"], break_start_end["break_end"], shift_start_end["shift_start"], shift_start_end["shift_end"]]
