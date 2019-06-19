@@ -12,6 +12,26 @@ def test_split_into_entries():
 def test_split_entry_1():
     assert split_entry(example_1) == ['15-18','23:00','10.0','10:00']
 
+def test_parse_start_end_1():
+    example_1_split = split_entry(example_1)
+    assert parse_start_end(example_1_split) == {
+        "shift_start": datetime(1900, 1, 1, 10, 0),
+        "shift_end": datetime(1900, 1, 1, 23, 0),
+    }
+
+def test_separate_breaks_1():
+    example_1_split = split_entry(example_1)
+    assert separate_breaks(example_1_split) == ["15","18"]
+
+def test_separate_breaks_2():
+    example_2_split = split_entry(example_2)
+    assert separate_breaks(example_2_split) == ["18.30","19.00"]
+
+def test_separate_breaks_3():
+    example_3_split = split_entry(example_3)
+    assert separate_breaks(example_3_split) == ["4PM","5PM"]
+
+
 example_1 = '15-18,23:00,10.0,10:00'
 example_2 = '18.30-19.00,23:00,12.0,18:00'
 example_3 = '4PM-5PM,22:30,14.0,12:00'
