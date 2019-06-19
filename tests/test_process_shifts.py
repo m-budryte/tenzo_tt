@@ -1,5 +1,6 @@
 import pytest
 from datetime import datetime, timedelta
+from solution.solution import *
 from pytest_fixtures import *
 from parsers.full_string_parser import *
 
@@ -163,7 +164,7 @@ def test_aling_breaks_7():
         "shift_end": datetime(1900, 1, 1, 16, 0)
         }
 
-def test_calculate_costs():
+def test_calculate_costs_1():
     example_split = split_entry(example_1)
     break_start_end = separate_breaks(example_split)
     parsed_break_data = parse_break_start_end(break_start_end)
@@ -175,16 +176,116 @@ def test_calculate_costs():
         '12:00': 10.0,
         '13:00': 10.0,
         '14:00': 10.0,
-        '15:00': 0.0,
-        '16:00': 0.0,
-        '17:00': 0.0,
-        '18:00': 10.0,
+        '15:00': 0.16666666470000077,
+        '16:00': -1.999999221791171e-09,
+        '17:00': -1.999999221791171e-09,
+        '18:00': 9.8333333333,
         '19:00': 10.0,
         '20:00': 10.0,
         '21:00': 10.0,
         '22:00': 10.0,
     }
 
+def test_calculate_costs_2():
+    example_split = split_entry(example_2)
+    break_start_end = separate_breaks(example_split)
+    parsed_break_data = parse_break_start_end(break_start_end)
+    parsed_shift_data = parse_start_end(example_split)
+    shift_data = align_breaks(parsed_shift_data, parsed_break_data)
+    assert calculate_costs(shift_data, example_split[2]) == {
+    '19:00': 11.8,
+    '14:00': 12.0,
+    '17:00': 12.0,
+    '12:00': 12.0,
+    '21:00': 12.0,
+    '15:00': 12.0,
+    '10:00': 12.0,
+    '13:00': 12.0,
+    '22:00': 12.0,
+    '18:00': 6.200000000000013,
+    '16:00': 12.0,
+    '11:00': 12.0,
+    '20:00': 12.0}
+
+def test_calculate_costs_3():
+    example_split = split_entry(example_3)
+    break_start_end = separate_breaks(example_split)
+    parsed_break_data = parse_break_start_end(break_start_end)
+    parsed_shift_data = parse_start_end(example_split)
+    shift_data = align_breaks(parsed_shift_data, parsed_break_data)
+    assert calculate_costs(shift_data, example_split[2]) == {
+        '19:00': 14.0,
+        '14:00': 14.0,
+        '17:00': 13.7666666667,
+        '12:00': 14.0,
+        '21:00': 14.0,
+        '15:00': 14.0,
+        '10:00': 14.0,
+        '13:00': 14.0,
+        '22:00': 14.0,
+        '18:00': 14.0,
+        '16:00': 0.23333333530001898,
+        '11:00': 14.0,
+        '20:00': 14.0}
+
+def test_calculate_costs_4():
+    example_split = split_entry(example_4)
+    break_start_end = separate_breaks(example_split)
+    parsed_break_data = parse_break_start_end(break_start_end)
+    parsed_shift_data = parse_start_end(example_split)
+    shift_data = align_breaks(parsed_shift_data, parsed_break_data)
+    assert calculate_costs(shift_data, example_split[2]) == {
+        '19:00': 10.0,
+        '14:00': 10.0,
+        '17:00': 10.0,
+        '12:00': 10.0,
+        '21:00': 10.0,
+        '09:00': 10.0,
+        '15:00': 0.16666666470000077,
+        '10:00': 10.0,
+        '13:00': 10.0,
+        '22:00': 10.0,
+        '18:00': 10.0,
+        '16:00': 9.8333333333,
+        '11:00': 10.0,
+        '20:00': 10.0
+        }
+
+def test_calculate_total_labour_cost():
+    assert calculate_total_labour_cost(full_string) == {
+    '19:00': 10.0,
+    '14:00': 10.0,
+    '17:00': 10.0,
+    '12:00': -1.999999221791171e-09,
+    '21:00': 10.0,
+    '09:00': 10.0,
+    '15:00': 10.0,
+    '10:00': 10.0,
+    '13:00': 9.8333333333,
+    '22:00': 10.0,
+    '18:00': 10.0,
+    '16:00': 10.0,
+    '11:00': 0.16666666470000077,
+    '20:00': 10.0
+    }
+
+def test_process_shifts():
+    assert process_shifts('work_shifts.csv') == {
+        '19:00': 10.0,
+        '14:00': 10.0,
+        '17:00': 10.0,
+        '12:00': -1.999999221791171e-09,
+        '21:00': 10.0,
+        '09:00': 10.0,
+        '15:00': 10.0,
+        '10:00': 10.0,
+        '13:00': 9.8333333333,
+        '22:00': 10.0,
+        '18:00': 10.0,
+        '16:00': 10.0,
+        '11:00': 0.16666666470000077,
+        '20:00': 10.0
+        }
 example_1 = '15-18,23:00,10.0,10:00'
 example_2 = '18.30-19.00,23:00,12.0,18:00'
 example_3 = '4PM-5PM,22:30,14.0,12:00'

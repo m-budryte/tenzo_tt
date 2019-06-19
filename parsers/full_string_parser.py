@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-
+import re
 
 day_labour_cost = {}
 def extract_data(full_string):
@@ -56,12 +56,36 @@ def datespan(startDate, endDate, delta):
         yield currentDate
         currentDate += delta
 
-def calculate_costs(shift_data, rate):
-    for hour in datespan(shift_data["shift_start"],shift_data["shift_end"],delta=timedelta(hours=1)):
-        if hour.strftime('%H:%M') not in day_labour_cost:
-            day_labour_cost[hour.strftime('%H:%M')] = 0
-        day_labour_cost[hour.strftime('%H:%M')] += float(rate)
+def create_dictionary(period_start, period_end):
+    for hour in datespan(period_start,period_end,delta=timedelta(hours=1)):
+        if hour.strftime('%H:00') not in day_labour_cost:
+            day_labour_cost[hour.strftime('%H:00')] = 0
 
-    for hour in datespan(shift_data["break_start"],shift_data["break_end"],delta=timedelta(hours=1)):
-        day_labour_cost[hour.strftime('%H:%M')] -= float(rate)
+def calculate_costs(shift_data, rate):
+    create_dictionary(shift_data["shift_start"],shift_data["shift_end"])
+
+    for hour in day_labour_cost:
+        day_labour_cost[hour] = float(rate)
+    minute_income = round(float(rate)/60, 10)
+    minutes = 0
+    for minute in datespan(shift_data["shift_start"],shift_data["shift_end"],delta=timedelta(minutes=1)):
+        break_start = shift_data["break_start"]
+        break_end = shift_data["break_end"]
+        if (break_start < minute <= break_end):
+            day_labour_cost[minute.strftime("%H:00")] -= minute_income
+
+    return day_labour_cost
+
+def calculate_total_labour_cost(string):
+    data = extract_data(string)
+    entries = split_into_entries(data)
+    for entry in entries:
+        columns = split_entry(entry)
+        rate = float(columns[2])
+        shift_start_end = parse_start_end(columns)
+        break_times = separate_breaks(columns)
+        break_start_end = parse_break_start_end(break_times)
+        formatted_columns = align_breaks(shift_start_end, break_start_end)
+        calculate_costs(formatted_columns, rate)
+    print(day_labour_cost)
     return day_labour_cost
