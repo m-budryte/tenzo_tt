@@ -2,7 +2,7 @@ import pytest
 from datetime import datetime, timedelta
 from solution.solution import *
 from pytest_fixtures import *
-from parsers.full_string_parser import *
+from parsers.work_shifts_parser import *
 
 def test_extracts_data():
     assert extract_data(full_string) == extracted_data_string

@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 import re
 
 day_labour_cost = {}
+
 def extract_data(full_string):
     return full_string.strip('break_notes,end_time,pay_rate,start_time\n')
 
