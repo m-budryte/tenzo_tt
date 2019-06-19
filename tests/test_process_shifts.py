@@ -84,49 +84,106 @@ def test_aling_breaks_1():
     break_start_end = separate_breaks(example_split)
     parsed_break_data = parse_break_start_end(break_start_end)
     parsed_shift_data = parse_start_end(example_split)
-    assert align_breaks(parsed_shift_data, parsed_break_data) == [datetime(1900, 1, 1, 15, 0), datetime(1900, 1, 1, 18, 0), datetime(1900, 1, 1, 10, 0), datetime(1900, 1, 1, 23, 0)]
+    assert align_breaks(parsed_shift_data, parsed_break_data) == {
+            "break_start": datetime(1900, 1, 1, 15, 0),
+            "break_end": datetime(1900, 1, 1, 18, 0),
+            "shift_start": datetime(1900, 1, 1, 10, 0),
+            "shift_end": datetime(1900, 1, 1, 23, 0)
+    }
+
 
 def test_aling_breaks_2():
     example_split = split_entry(example_2)
     break_start_end = separate_breaks(example_split)
     parsed_break_data = parse_break_start_end(break_start_end)
     parsed_shift_data = parse_start_end(example_split)
-    assert align_breaks(parsed_shift_data, parsed_break_data) == [datetime(1900, 1, 1, 18, 30), datetime(1900, 1, 1, 19, 0), datetime(1900, 1, 1, 18, 0), datetime(1900, 1, 1, 23, 0)]
+    assert align_breaks(parsed_shift_data, parsed_break_data) == {
+            "break_start": datetime(1900, 1, 1, 18, 30),
+            "break_end": datetime(1900, 1, 1, 19, 0),
+            "shift_start": datetime(1900, 1, 1, 18, 0),
+            "shift_end": datetime(1900, 1, 1, 23, 0)
+    }
 
 def test_aling_breaks_3():
     example_split = split_entry(example_3)
     break_start_end = separate_breaks(example_split)
     parsed_break_data = parse_break_start_end(break_start_end)
     parsed_shift_data = parse_start_end(example_split)
-    assert align_breaks(parsed_shift_data, parsed_break_data) == [datetime(1900, 1, 1, 16, 0), datetime(1900, 1, 1, 17, 0), datetime(1900, 1, 1, 12, 0), datetime(1900, 1, 1, 22, 30)]
-
+    assert align_breaks(parsed_shift_data, parsed_break_data) == {
+            "break_start": datetime(1900, 1, 1, 16, 0),
+            "break_end": datetime(1900, 1, 1, 17, 0),
+            "shift_start": datetime(1900, 1, 1, 12, 0),
+            "shift_end": datetime(1900, 1, 1, 22, 30)
+    }
 def test_aling_breaks_4():
     example_split = split_entry(example_4)
     break_start_end = separate_breaks(example_split)
     parsed_break_data = parse_break_start_end(break_start_end)
     parsed_shift_data = parse_start_end(example_split)
-    assert align_breaks(parsed_shift_data, parsed_break_data) == [datetime(1900, 1, 1, 15, 0), datetime(1900, 1, 1, 16, 0), datetime(1900, 1, 1, 9, 0), datetime(1900, 1, 1, 18, 0)]
+    assert align_breaks(parsed_shift_data, parsed_break_data) == {
+            "break_start": datetime(1900, 1, 1, 15, 0),
+            "break_end": datetime(1900, 1, 1, 16, 0),
+            "shift_start": datetime(1900, 1, 1, 9, 0),
+            "shift_end": datetime(1900, 1, 1, 18, 0)
+    }
 
 def test_aling_breaks_5():
     example_split = split_entry(example_5)
     break_start_end = separate_breaks(example_split)
     parsed_break_data = parse_break_start_end(break_start_end)
     parsed_shift_data = parse_start_end(example_split)
-    assert align_breaks(parsed_shift_data, parsed_break_data) == [datetime(1900, 1, 1, 16, 0), datetime(1900, 1, 1, 16, 10), datetime(1900, 1, 1, 9, 0), datetime(1900, 1, 1, 23, 0)]
+    assert align_breaks(parsed_shift_data, parsed_break_data) == {
+            "break_start": datetime(1900, 1, 1, 16, 0),
+            "break_end": datetime(1900, 1, 1, 16, 10),
+            "shift_start": datetime(1900, 1, 1, 9, 0),
+            "shift_end": datetime(1900, 1, 1, 23, 0)
+    }
 
 def test_aling_breaks_6():
     example_split = split_entry(example_6)
     break_start_end = separate_breaks(example_split)
     parsed_break_data = parse_break_start_end(break_start_end)
     parsed_shift_data = parse_start_end(example_split)
-    assert align_breaks(parsed_shift_data, parsed_break_data) == [datetime(1900, 1, 1, 15, 0), datetime(1900, 1, 1, 17, 0), datetime(1900, 1, 1, 11, 0), datetime(1900, 1, 1, 23, 0)]
+    assert align_breaks(parsed_shift_data, parsed_break_data) == {
+            "break_start": datetime(1900, 1, 1, 15, 0),
+            "break_end": datetime(1900, 1, 1, 17, 0),
+            "shift_start": datetime(1900, 1, 1, 11, 0),
+            "shift_end": datetime(1900, 1, 1, 23, 0)
+    }
 
 def test_aling_breaks_7():
     example_split = split_entry(example_7)
     break_start_end = separate_breaks(example_split)
     parsed_break_data = parse_break_start_end(break_start_end)
     parsed_shift_data = parse_start_end(example_split)
-    assert align_breaks(parsed_shift_data, parsed_break_data) == [datetime(1900, 1, 1, 11, 0), datetime(1900, 1, 1, 13, 0), datetime(1900, 1, 1, 10, 0), datetime(1900, 1, 1, 16, 0)]
+    assert align_breaks(parsed_shift_data, parsed_break_data) == {
+        "break_start": datetime(1900, 1, 1, 11, 0),
+        "break_end": datetime(1900, 1, 1, 13, 0),
+        "shift_start": datetime(1900, 1, 1, 10, 0),
+        "shift_end": datetime(1900, 1, 1, 16, 0)
+        }
+
+def test_calculate_costs():
+    example_split = split_entry(example_1)
+    break_start_end = separate_breaks(example_split)
+    parsed_break_data = parse_break_start_end(break_start_end)
+    parsed_shift_data = parse_start_end(example_split)
+    shift_data = align_breaks(parsed_shift_data, parsed_break_data)
+    assert calculate_costs(shift_data, example_split[2]) == {
+        '10:00': 10.0,
+        '11:00': 10.0,
+        '12:00': 10.0,
+        '13:00': 10.0,
+        '14:00': 10.0,
+        '15:00': 0.0,
+        '16:00': 0.0,
+        '17:00': 0.0,
+        '18:00': 10.0,
+        '19:00': 10.0,
+        '20:00': 10.0,
+        '21:00': 10.0,
+        '22:00': 10.0,
+    }
 
 example_1 = '15-18,23:00,10.0,10:00'
 example_2 = '18.30-19.00,23:00,12.0,18:00'
