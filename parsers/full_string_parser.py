@@ -17,3 +17,11 @@ def parse_start_end(entry_list):
 
 def separate_breaks(entry_list):
     return entry_list[0].split("-")
+
+def try_parsing_timestamp(timestamp):
+    for format in('%H', '%H:%M'):
+        try:
+            return datetime.strptime(timestamp, format)
+        except ValueError:
+            pass
+    raise ValueError('no valid date format found')

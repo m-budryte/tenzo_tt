@@ -20,17 +20,24 @@ def test_parse_start_end_1():
     }
 
 def test_separate_breaks_1():
-    example_1_split = split_entry(example_1)
-    assert separate_breaks(example_1_split) == ["15","18"]
+    example_split = split_entry(example_1)
+    assert separate_breaks(example_split) == ["15","18"]
 
 def test_separate_breaks_2():
-    example_2_split = split_entry(example_2)
-    assert separate_breaks(example_2_split) == ["18.30","19.00"]
+    example_split = split_entry(example_2)
+    assert separate_breaks(example_split) == ["18.30","19.00"]
 
 def test_separate_breaks_3():
-    example_3_split = split_entry(example_3)
-    assert separate_breaks(example_3_split) == ["4PM","5PM"]
+    example_split = split_entry(example_3)
+    assert separate_breaks(example_split) == ["4PM","5PM"]
 
+def test_try_parsing_timestamp_1():
+    example_split = split_entry(example_1)
+    break_start_end = separate_breaks(example_split)
+    break_start = break_start_end[0]
+    break_end = break_start_end[1]
+    assert try_parsing_timestamp(break_start) == datetime(1900, 1, 1, 15, 0)
+    assert try_parsing_timestamp(break_end) == datetime(1900, 1, 1, 18, 0)
 
 example_1 = '15-18,23:00,10.0,10:00'
 example_2 = '18.30-19.00,23:00,12.0,18:00'
