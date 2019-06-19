@@ -16,10 +16,13 @@ def parse_start_end(entry_list):
     }
 
 def separate_breaks(entry_list):
-    return entry_list[0].split("-")
+    split_breaks = entry_list[0].split("-")
+    if 'PM' in split_breaks[1] and 'PM' not in split_breaks[0]:
+        split_breaks[0] += 'PM'
+    return split_breaks
 
 def parse_timestamp(timestamp):
-    for format in('%H', '%H.%M', '%H:%M', '%I%p'):
+    for format in('%H', '%H.%M', '%H:%M', '%I%p', '%I.%M%p', '%H ', ' %H'):
         try:
             return datetime.strptime(timestamp, format)
         except ValueError:
@@ -34,4 +37,8 @@ def parse_break_start_end(break_start_end):
 
 def align_breaks(shift_start_end, break_start_end):
     if (shift_start_end["shift_start"] < break_start_end["break_start"] < break_start_end["break_end"] < shift_start_end["shift_end"]):
-        return [break_start_end["break_start"], break_start_end["break_end"], shift_start_end["shift_start"], shift_start_end["shift_end"]]
+        pass
+    else:
+        break_start_end["break_start"] += timedelta(hours=12)
+        break_start_end["break_end"] += timedelta(hours=12)
+    return [break_start_end["break_start"], break_start_end["break_end"], shift_start_end["shift_start"], shift_start_end["shift_end"]]
