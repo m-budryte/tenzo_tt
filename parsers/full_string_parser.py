@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 
+
 day_labour_cost = {}
 def extract_data(full_string):
     return full_string.strip('break_notes,end_time,pay_rate,start_time\n')
@@ -60,6 +61,7 @@ def calculate_costs(shift_data, rate):
         if hour.strftime('%H:%M') not in day_labour_cost:
             day_labour_cost[hour.strftime('%H:%M')] = 0
         day_labour_cost[hour.strftime('%H:%M')] += float(rate)
+
     for hour in datespan(shift_data["break_start"],shift_data["break_end"],delta=timedelta(hours=1)):
         day_labour_cost[hour.strftime('%H:%M')] -= float(rate)
     return day_labour_cost
