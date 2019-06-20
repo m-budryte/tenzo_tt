@@ -188,7 +188,7 @@ class TestExtractingShiftData:
                 "pay_rate": 12.0
                 }
 
-class TestCalculatingLabourCosts:
+class TestCalculatingSingleLabourCosts:
     def test_calculate_single_labour_costs_1(self):
         parser = ShiftParser()
         assert parser.calculate_single_labour_costs(example_1) == {
@@ -284,7 +284,28 @@ class TestCalculatingLabourCosts:
         '14:00': 9.999999999999998,
         '15:00': 9.999999999999998,
         }
-        
+
+class TestCalculatingTotalLabourCost:
+    def test_total_labour_cost(self):
+        parser = ShiftParser()
+        assert parser.total_labour_cost(full_string) == {
+        '09:00': 30.0,
+        '10:00': 50.0,
+        '11:00': 50.0,
+        '12:00': 64.0,
+        '13:00': 74.0,
+        '14:00': 74.0,
+        '15:00': 44.0,
+        '16:00': 26.67,
+        '17:00': 54.0,
+        '18:00': 60.0,
+        '19:00': 66.0,
+        '20:00': 66.0,
+        '22:00': 59.0,
+        '21:00': 66.0,
+        '20:00': 66.0,
+        }
+
 example_1 = ['15-18','23:00','10.0','10:00']
 example_2 = ['18.30-19.00','23:00','12.0','18:00']
 example_3 = ['4PM-5PM','22:30','14.0','12:00']

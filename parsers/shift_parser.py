@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 import re
+from parsers.string_processor import String_processor
 
 def datespan(startDate, endDate, delta):
     currentDate = startDate
@@ -10,6 +11,7 @@ def datespan(startDate, endDate, delta):
 class ShiftParser:
     def __init__(self):
         self.labour_costs = {}
+
     def parse_timestamp(self, timestamp):
         for format in ('%H', '%H.%M', '%H:%M', '%I%p', '%I.%M%p', '%H ', ' %H'):
             try:
@@ -79,5 +81,16 @@ class ShiftParser:
 
         self.calculate_labour_cost_per_minute(shift_data["shift_start"], shift_data["break_start"],pay_rate_per_minute)
         self.calculate_labour_cost_per_minute(shift_data["break_end"], shift_data["shift_end"],pay_rate_per_minute)
-        
+
+        return self.labour_costs
+
+    def round_costs(self):
+        for labour_cost_per_hour in self.labour_costs:
+            self.labour_costs[labour_cost_per_hour] = round(self.labour_costs[labour_cost_per_hour], 2)
+
+    def total_labour_cost(self, string, processor = String_processor()):
+        shifts_list = processor.process_string(string)
+        for shift in shifts_list:
+            self.calculate_single_labour_costs(shift)
+        self.round_costs()
         return self.labour_costs

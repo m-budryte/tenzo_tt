@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-from parsers.work_shifts_parser import *
+from parsers.shift_parser import ShiftParser
 from parsers.transactions_parser import *
 """
 Please write you name here: Masha Budryte
@@ -8,20 +8,15 @@ Please write you name here: Masha Budryte
 
 def process_shifts(path_to_csv):
     string = open(path_to_csv).read()
-    return calculate_total_labour_cost(string)
+    parser = ShiftParser()
+    return parser.total_labour_cost(string)
 
 def process_sales(path_to_csv):
     string = open(path_to_csv).read()
     return calculate_profits(string)
 
-def compute_percentage(shifts, sales):
-    percentage_income = {}
-    percentage_income.update(sales)
-    print(percentage_income)
-    for hour in shifts:
-        percentage_income[hour] = -shifts[hour]
-    print(percentage_income)
-    return percentage_income
+# def compute_percentage(shifts, sales):
+
 #
 # def best_and_worst_hour(percentages):
 #     return
