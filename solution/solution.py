@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 from parsers.shift_parser import ShiftParser
-from parsers.transactions_parser import *
+from parsers.transaction_parser import TransactionParser
 """
 Please write you name here: Masha Budryte
 """
@@ -13,7 +13,8 @@ def process_shifts(path_to_csv):
 
 def process_sales(path_to_csv):
     string = open(path_to_csv).read()
-    return calculate_profits(string)
+    parser = TransactionParser()
+    return parser.calculate_profit(string)
 
 # def compute_percentage(shifts, sales):
 

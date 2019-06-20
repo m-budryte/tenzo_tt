@@ -2,6 +2,7 @@ import pytest
 from datetime import datetime, timedelta
 from pytest_fixtures import *
 from parsers.shift_parser import ShiftParser
+
 class TestParsingTimestamps:
     parser = ShiftParser()
     def test_parse_timestamp_1(self):
