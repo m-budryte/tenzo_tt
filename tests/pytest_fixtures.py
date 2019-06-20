@@ -1,3 +1,5 @@
+from parsers.shift_parser import *
+
 def setup_module(module):
     print ("setup_module      module:%s" % module.__name__)
 

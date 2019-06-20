@@ -1,9 +1,15 @@
 from datetime import datetime, timedelta
 import re
 
-day_labour_cost = {}
+def datespan(startDate, endDate, delta):
+    currentDate = startDate
+    while currentDate < endDate:
+        yield currentDate
+        currentDate += delta
 
-class Shift_parser:
+class ShiftParser:
+    def __init__(self):
+        self.labour_costs = {}
     def parse_timestamp(self, timestamp):
         for format in ('%H', '%H.%M', '%H:%M', '%I%p', '%I.%M%p', '%H ', ' %H'):
             try:
@@ -60,3 +66,18 @@ class Shift_parser:
         shift_data.update(pay_rate)
         shift_data.update(shift_and_break)
         return shift_data
+
+    def calculate_labour_cost_per_minute(self, work_start, work_end, pay_rate_per_minute):
+        for minute in datespan(work_start, work_end, timedelta(minutes=1)):
+            if minute.strftime("%H:00") not in self.labour_costs:
+                self.labour_costs[minute.strftime("%H:00")] = 0.0
+            self.labour_costs[minute.strftime("%H:00")] += pay_rate_per_minute
+
+    def calculate_single_labour_costs(self, entry_list):
+        shift_data = self.extract_shift_data(entry_list)
+        pay_rate_per_minute = shift_data["pay_rate"]/60
+
+        self.calculate_labour_cost_per_minute(shift_data["shift_start"], shift_data["break_start"],pay_rate_per_minute)
+        self.calculate_labour_cost_per_minute(shift_data["break_end"], shift_data["shift_end"],pay_rate_per_minute)
+        
+        return self.labour_costs
